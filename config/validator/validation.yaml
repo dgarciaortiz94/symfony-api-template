@@ -1,0 +1,67 @@
+App\Entity\User:
+    constraints:
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
+              fields: username
+              message: Éste username ya está en uso
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
+              fields: email
+              message: Éste email ya está en uso
+    properties:
+        username:
+            - NotBlank:
+                  message: El campo username es obligatorio
+            - Length:
+                  min: 3
+                  max: 25
+                  minMessage: El username debe tener al menos {{ limit }} caracteres
+                  maxMessage: El username no puede tener mas de {{ limit }} caracteres
+
+        name:
+            - NotBlank:
+                  message: El campo name es obligatorio
+            - Length:
+                  min: 3
+                  max: 30
+                  minMessage: El nombre debe tener al menos {{ limit }} caracteres
+                  maxMessage: El nombre no puede tener mas de {{ limit }} caracteres
+
+        firstSurname:
+            - NotBlank:
+                  message: El campo firstSurname es obligatorio
+            - Length:
+                  min: 3
+                  max: 30
+                  minMessage: El primer apellido debe tener al menos {{ limit }} caracteres
+                  maxMessage: El primer apellido no puede tener mas de {{ limit }} caracteres
+
+        lastSurname:
+            - Length:
+                  min: 3
+                  max: 30
+                  minMessage: El segundo apellido debe tener al menos {{ limit }} caracteres
+                  maxMessage: El segundo apellido no puede tener mas de {{ limit }} caracteres
+
+        email:
+            - NotBlank:
+                  message: El campo email es obligatorio
+            - Email:
+                  message: El email introducido no tiene un formato válido
+            - Length:
+                  min: 5
+                  max: 30
+                  minMessage: El email debe tener al menos {{ limit }} caracteres
+                  maxMessage: El email no puede tener mas de {{ limit }} caracteres
+
+        plainPassword:
+            - NotBlank:
+                  message: El campo contraseña es obligatorio
+            - Regex:
+                  pattern: '/^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,30}$/'
+                  message: La contraseña debe contener entre 8 y 30 caracteres, un número, una letra mayúscula y una minúscula
+
+        repeatedPassword:
+            - NotBlank:
+                  message: El campo contraseña es obligatorio
+            - IdenticalTo:
+                  propertyPath: plainPassword
+                  message: Los campos contraseña deben coincidir
